@@ -1,5 +1,14 @@
 console.log("index is connected");
 
+const showLoader=()=>{
+    document.getElementById("loader").classList.remove("hidden");
+    document.getElementById("video-container").classList.add("hidden");
+}
+const hideLoader=()=>{
+    document.getElementById("loader").classList.add("hidden");
+    document.getElementById("video-container").classList.remove("hidden");
+}
+
 function removeActiveClass() {
     const activeButtons= document.getElementsByClassName("active");
 }
@@ -20,6 +29,7 @@ function loadCategories() {
 
 // problem-2
 function loadVideos(searchText = "") {
+    showLoader();
     fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchText}`)
     .then((res) => res.json())
     .then((data) =>  displayVideos(data.videos));
@@ -28,6 +38,7 @@ function loadVideos(searchText = "") {
 }
 
 const loadCategoryVideos = (id) => {
+    showLoader();
     const url = `
     https://openapi.programming-hero.com/api/phero-tube/category/${id}
     ` ;
@@ -147,6 +158,8 @@ if (videos.length == 0){
         <h2 class="text-2xl font-bold">Oops!! Sorry, There is no content here</h2>
     </div>
     `
+    hideLoader();
+    return;
 }
     videos.forEach((video)=> {
         console.log(video);
@@ -188,6 +201,7 @@ if (videos.length == 0){
         videoContainer.append(videoCard);
 
     });
+    hideLoader();
 };
 
 document.getElementById('search-input').addEventListener("keyup", (e)=> {
